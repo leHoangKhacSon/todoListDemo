@@ -4,15 +4,23 @@
   font-size: 24px;
   color: #4d4d4d;
   border-bottom: 1px solid #bebebe;
-  padding: 10px 5px;
+  padding: 25px 10px;
   display: flex;
+}
+
+.TodoItem img {
+  opacity: .3;
 }
 
 .TodoItem > p {
   margin: 0 0 0 20px;
 }
 
-.TodoItem-complete {
+.TodoItem-complete p{
   text-decoration: line-through;
   opacity: .3;
+}
+
+.TodoItem-complete img {
+  opacity: 1;
 }
