@@ -1,6 +1,6 @@
 .App {
   margin-top: 50px;
-  width: 500px;
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #bebebe;
@@ -9,7 +9,12 @@
 .App .Header {
   padding: 10px 5px;
   display: flex;
-  border-bottom: 1px solid #bebebe;
+  border-bottom: 2px solid #bebebe;
+}
+
+.App .Header img {
+  opacity: .2;
+  margin-left: 10px;
 }
 
 .App .Header input {
@@ -21,6 +26,7 @@
   border: none;
   margin-left: 10px;
   opacity: .3;
+  margin-left: 15px;
 }
 
 .App .Header input:focus {
@@ -42,6 +48,36 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App .Footer {
+  display: flex;
+  align-items: center;
+}
+
+.App .Footer p {
+  margin-left: 10px;
+  color: #3e3e3e;
+}
+
+.App .Footer .clickItem {
+  margin-left: 130px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.App .Footer a {
+  text-decoration: none;
+  color: #9e9e9e;
+  margin: 0 10px 0 10px;
+}
+
+.App .Footer > a {
+  margin-left: 80px;
+}
+
+.App .Footer .clickItem a:active {
+  color: chocolate;
 }
 
 .App-link {
