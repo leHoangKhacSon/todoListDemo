@@ -6,15 +6,14 @@ import TodoItem from './components/TodoItem';
 class App extends Component{
   constructor() {
     super();
+    const data = JSON.parse(localStorage.getItem('TodoItem'));
     this.state = {
       newItem: "",
       currentItem: 'all',
-      todoItems: [
-        { title: 'Đi học', isComplete: true },
-        { title: 'Đi làm', isComplete: false },
-        { title: 'Đi chơi', isComplete: true }
-      ]
+      todoItems: data
     }
+
+    // localStorage.setItem('TodoItem', JSON.stringify(this.state.todoItems));
     
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -23,6 +22,15 @@ class App extends Component{
     this.onActiveItemClicked = this.onActiveItemClicked.bind(this);
     this.onCompleteItemClicked = this.onCompleteItemClicked.bind(this);
     this.onClearCompleteClicked = this.onClearCompleteClicked.bind(this);
+
+    // create Ref()
+    this.inputElement = React.createRef();
+  }
+  
+  // component did mount
+  componentDidMount() {
+    // automactic focus input after go to website
+    this.inputElement.current.focus();
   }
 
   // event click item use to check item
@@ -42,7 +50,6 @@ class App extends Component{
         ]
       });
     }
-    console.log(item);
   }
 
   // event onKeyUp use to fetch value user enter
@@ -73,20 +80,6 @@ class App extends Component{
       newItem: event.target.value
     });
   }
-  
-  // click delete item
-  // onItemDeleted(item) {
-  //   return (event) => {
-  //     const { todoItems } = this.state;
-  //     const index = todoItems.indexOf(item);
-  //     this.setState({
-  //       todoItems: [
-  //         ...todoItems.slice(0, index),
-  //         ...todoItems.slice(index + 1)
-  //       ]
-  //     })
-  //   }
-  // }
 
   // click item select all
   onAllSelected() {
@@ -104,12 +97,14 @@ class App extends Component{
       currentItem: 'all'
     });
   }
+
   // click active
   onActiveItemClicked() {
     this.setState({
       currentItem: 'active'
     })
   }
+
   // click complete
   onCompleteItemClicked() {
     this.setState({
@@ -128,12 +123,18 @@ class App extends Component{
   
   render() {
     let { todoItems, newItem, currentItem } = this.state;
-    // filter todoItems
+    // update data to localStorage after render
+    // localStorage.removeItem('todoItem');
+    localStorage.setItem('TodoItem', JSON.stringify(todoItems));
+
+    // filter todoItems if click active
     if(currentItem === 'active') {
       todoItems = todoItems.filter((item) => {
         return item.isComplete === false;
       });
     }
+
+    // filter todoItems if click complete 
     if(currentItem === 'complete') {
       todoItems = todoItems.filter((item) => {
         return item.isComplete === true;
@@ -149,9 +150,13 @@ class App extends Component{
     return (  // react element
       <div className="App">
         <div className="Header">
-          <img src={url} onClick={this.onAllSelected} width="32" height="32" />
+          <img src={url} 
+          onClick={this.onAllSelected} 
+          width="32" 
+          height="32" />
           <input 
           type="text" 
+          ref={this.inputElement}
           placeholder="What needs to be done?" 
           value={newItem}
           onChange={this.onChange}
@@ -169,11 +174,23 @@ class App extends Component{
               {leng} Items
             </p>
             <div className="clickItem">
-              <a key="all" href="#" onClick={ this.onAllItemClicked } >All</a>
-              <a key="active" href="#" onClick={ this.onActiveItemClicked } >Active</a>
-              <a key="complete" href="#" onClick={ this.onCompleteItemClicked } >Complete</a>
+              <a key="all" 
+              href="#" 
+              onClick={ this.onAllItemClicked } >All</a>
+              <a key="active" 
+              href="#" 
+              onClick={ this.onActiveItemClicked } >Active</a>
+              <a key="complete" 
+              href="#" 
+              onClick={ this.onCompleteItemClicked } >Complete</a>
             </div>
-            { lengComplete > 0 && <a key="clear" href="#" onClick={ this.onClearCompleteClicked } >Clear Complete</a> }
+            { 
+              lengComplete > 0 
+              && 
+              <a key="clear" 
+              href="#" 
+              onClick={ this.onClearCompleteClicked } >Clear Complete</a> 
+            }
         </div>
       </div>
     );
