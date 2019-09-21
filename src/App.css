@@ -17,6 +17,10 @@
   margin-left: 10px;
 }
 
+.App .Header img ~ img {
+  margin: 3px 10px 0 0;
+}
+
 .App .Header input {
   font-family: Helvetica, sans-serif;
   font-weight: 300;

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+
 import checkAll from './img/checkAll.svg';
+import deleteInput from './img/delete.svg';
 import './App.css';
 import TodoItem from './components/TodoItem';
 
@@ -22,7 +24,7 @@ class App extends Component{
     this.onActiveItemClicked = this.onActiveItemClicked.bind(this);
     this.onCompleteItemClicked = this.onCompleteItemClicked.bind(this);
     this.onClearCompleteClicked = this.onClearCompleteClicked.bind(this);
-
+    this.onDeleteInputClicked = this.onDeleteInputClicked.bind(this);
     // create Ref()
     this.inputElement = React.createRef();
   }
@@ -79,6 +81,13 @@ class App extends Component{
     this.setState({
       newItem: event.target.value
     });
+  }
+
+  // click delete input
+  onDeleteInputClicked(event) {
+    this.setState({
+      newItem: ''
+    })
   }
 
   // click item select all
@@ -143,6 +152,7 @@ class App extends Component{
     // count Items
     const leng = todoItems.length;
     const url = checkAll;
+    const urlDel = deleteInput;
     const lengComplete = todoItems.filter((item) => {
       return item.isComplete === true;
     }).length;
@@ -153,7 +163,8 @@ class App extends Component{
           <img src={url} 
           onClick={this.onAllSelected} 
           width="32" 
-          height="32" />
+          height="32"
+          alt="select all" />
           <input 
           type="text" 
           ref={this.inputElement}
@@ -161,6 +172,13 @@ class App extends Component{
           value={newItem}
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}/>
+          { newItem && 
+          <img 
+          src={urlDel} 
+          onClick={this.onDeleteInputClicked}  
+          width="24"
+          height="24"
+          /> }
         </div>
         {todoItems.length > 0 && todoItems.map((item, index) => (
           <TodoItem 
