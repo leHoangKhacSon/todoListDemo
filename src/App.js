@@ -8,12 +8,12 @@ import TodoItem from './components/TodoItem';
 class App extends Component{
   constructor() {
     super();
-    const data = JSON.parse(localStorage.getItem('TodoItem'));
-    this.state = {
-      newItem: "",
-      currentItem: 'all',
-      todoItems: data
-    }
+    this.state = JSON.parse(localStorage.getItem('list')) || 
+                {
+                  newItem: "",
+                  currentItem: 'all',
+                  todoItems: []
+                }
 
     // localStorage.setItem('TodoItem', JSON.stringify(this.state.todoItems));
     
@@ -134,7 +134,7 @@ class App extends Component{
     let { todoItems, newItem, currentItem } = this.state;
     // update data to localStorage after render
     // localStorage.removeItem('todoItem');
-    localStorage.setItem('TodoItem', JSON.stringify(todoItems));
+    localStorage.setItem('list', JSON.stringify(this.state));
 
     // filter todoItems if click active
     if(currentItem === 'active') {
@@ -178,6 +178,7 @@ class App extends Component{
           onClick={this.onDeleteInputClicked}  
           width="24"
           height="24"
+          alt="imageDelete"
           /> }
         </div>
         {todoItems.length > 0 && todoItems.map((item, index) => (
@@ -193,20 +194,20 @@ class App extends Component{
             </p>
             <div className="clickItem">
               <a key="all" 
-              href="#" 
+              href="/" 
               onClick={ this.onAllItemClicked } >All</a>
               <a key="active" 
-              href="#" 
+              href="/" 
               onClick={ this.onActiveItemClicked } >Active</a>
               <a key="complete" 
-              href="#" 
+              href="/" 
               onClick={ this.onCompleteItemClicked } >Complete</a>
             </div>
             { 
               lengComplete > 0 
               && 
               <a key="clear" 
-              href="#" 
+              href="/" 
               onClick={ this.onClearCompleteClicked } >Clear Complete</a> 
             }
         </div>
