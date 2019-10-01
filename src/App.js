@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 
 import checkAll from './img/checkAll.svg';
 import deleteInput from './img/delete.svg';
@@ -159,6 +160,7 @@ class App extends Component{
 
     return (  // react element
       <div className="App">
+        <div className="title-app">todo list</div>
         <div className="Header">
           <img src={url} 
           onClick={this.onAllSelected} 
@@ -193,13 +195,19 @@ class App extends Component{
               {leng} Items
             </p>
             <div className="clickItem">
-              <a key="all" 
+              <a key="all" className={classNames({
+                'border-link': currentItem === "all"
+              })}
               href="/" 
               onClick={ this.onAllItemClicked } >All</a>
-              <a key="active" 
+              <a key="active" className={classNames({
+                'border-link': currentItem === "active"
+              })}
               href="/" 
               onClick={ this.onActiveItemClicked } >Active</a>
-              <a key="complete" 
+              <a key="complete" className={classNames({
+                'border-link': currentItem === "complete"
+              })}
               href="/" 
               onClick={ this.onCompleteItemClicked } >Complete</a>
             </div>

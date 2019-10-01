@@ -1,9 +1,35 @@
 .App {
-  margin-top: 50px;
+  margin-top: 100px;
   width: 600px;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #bebebe;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  position: relative;
+}
+
+.App::before {
+  content: '';
+  height: 20px;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3), 
+              0 6px 1px -2px #fff,
+              0 7px 1px -2px rgba(0, 0, 0, .3),
+              0 12px 1px -4px #fff,
+              0 13px 1px -4px rgba(0, 0, 0, .3);
+  position: absolute;
+}
+
+.App .title-app {
+  position: absolute;
+  top: -90px;
+  right: 35%;
+  font-size: 60px;
+  font-weight: 100;
+  color: red;
+  opacity: .5;
 }
 
 .App .Header {
@@ -82,6 +108,12 @@
 
 .App .Footer .clickItem a:active {
   color: chocolate;
+}
+
+.App .Footer .clickItem .border-link {
+  border: 1px solid cornflowerblue;
+  padding: 2px 7px;
+  border-radius: 2px;
 }
 
 .App-link {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -6,25 +6,42 @@ import './TodoItem.css';
 import checkImg from '../img/check.svg';
 import checkComplete from '../img/checkComplete.svg';
 
-class TodoItem extends Component {
-  render() {
-    const { item, onClick } = this.props;  // destructuring
-
-    let url = checkImg;
-    if(item.isComplete) {
-      url = checkComplete;
-    }
-
-    return (
-      <div className={classNames('TodoItem', {
-        'TodoItem-complete': item.isComplete 
-      })}>
-          <img src={url} onClick={onClick} width="32" height="32" alt="click-item" />
-          <p>{this.props.item.title}</p>
-      </div>
-    );
+const TodoItem = (props) => {
+  const { item, onClick } = props;  // destructuring
+  let url = checkImg;
+  if(item.isComplete) {
+    url = checkComplete;
   }
+  
+  return (
+    <div className={classNames('TodoItem', {
+      'TodoItem-complete': item.isComplete 
+    })}>
+        <img src={url} onClick={onClick} width="32" height="32" alt="click-item" />
+        <p>{props.item.title}</p>
+    </div>
+  )
 }
+
+// class TodoItem extends Component {
+//   render() {
+//     const { item, onClick } = this.props;  // destructuring
+
+//     let url = checkImg;
+//     if(item.isComplete) {
+//       url = checkComplete;
+//     }
+
+//     return (
+//       <div className={classNames('TodoItem', {
+//         'TodoItem-complete': item.isComplete 
+//       })}>
+//           <img src={url} onClick={onClick} width="32" height="32" alt="click-item" />
+//           <p>{this.props.item.title}</p>
+//       </div>
+//     );
+//   }
+// }
 
 TodoItem.propTypes = {
   item: PropTypes.shape({
