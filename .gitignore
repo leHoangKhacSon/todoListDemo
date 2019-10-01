@@ -24,3 +24,7 @@ yarn-error.log*
 
 stories
 .stotybook
+
+.firebase
+.firebaserc
+firebase.json
