@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 
-import checkAll from './img/checkAll.svg';
-import deleteInput from './img/delete.svg';
 import './App.css';
 import TodoItem from './components/TodoItem';
+import Header from './components/Header';
 
 class App extends Component{
   constructor() {
@@ -152,8 +151,6 @@ class App extends Component{
     }
     // count Items
     const leng = todoItems.length;
-    const url = checkAll;
-    const urlDel = deleteInput;
     const lengComplete = todoItems.filter((item) => {
       return item.isComplete === true;
     }).length;
@@ -161,28 +158,16 @@ class App extends Component{
     return (  // react element
       <div className="App">
         <div className="title-app">todo list</div>
-        <div className="Header">
-          <img src={url} 
-          onClick={this.onAllSelected} 
-          width="32" 
-          height="32"
-          alt="select all" />
-          <input 
-          type="text" 
-          ref={this.inputElement}
-          placeholder="What needs to be done?" 
-          value={newItem}
+        
+        <Header 
+          onAllSelected={this.onAllSelected}
+          onDeleteInputClicked={this.onDeleteInputClicked}
           onChange={this.onChange}
-          onKeyUp={this.onKeyUp}/>
-          { newItem && 
-          <img 
-          src={urlDel} 
-          onClick={this.onDeleteInputClicked}  
-          width="24"
-          height="24"
-          alt="imageDelete"
-          /> }
-        </div>
+          onKeyUp={this.onKeyUp}
+          newItem={newItem}
+          inputElement={this.inputElement}
+        />
+
         {todoItems.length > 0 && todoItems.map((item, index) => (
           <TodoItem 
           key={index} 
