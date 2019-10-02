@@ -1,0 +1,36 @@
+.Footer {
+  display: flex;
+  align-items: center;
+}
+
+.Footer p {
+  margin-left: 10px;
+  color: #3e3e3e;
+}
+
+.Footer .clickItem {
+  margin-left: 130px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.Footer a {
+  text-decoration: none;
+  color: #9e9e9e;
+  margin: 0 10px 0 10px;
+}
+
+.Footer > a {
+  margin-left: 80px;
+}
+
+.Footer .clickItem a:active {
+  color: chocolate;
+}
+
+.Footer .clickItem .border-link {
+  border: 1px solid cornflowerblue;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
