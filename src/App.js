@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import classNames from 'classnames';
 
 import './App.css';
 import TodoItem from './components/TodoItem';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 class App extends Component{
   constructor() {
@@ -175,35 +175,16 @@ class App extends Component{
           onClick={ this.onItemClicked(item) } />
           ))}
         {todoItems.length === 0 && 'nothing here'}
-        <div className="Footer">
-            <p>
-              {leng} Items
-            </p>
-            <div className="clickItem">
-              <a key="all" className={classNames({
-                'border-link': currentItem === "all"
-              })}
-              href="/" 
-              onClick={ this.onAllItemClicked } >All</a>
-              <a key="active" className={classNames({
-                'border-link': currentItem === "active"
-              })}
-              href="/" 
-              onClick={ this.onActiveItemClicked } >Active</a>
-              <a key="complete" className={classNames({
-                'border-link': currentItem === "complete"
-              })}
-              href="/" 
-              onClick={ this.onCompleteItemClicked } >Complete</a>
-            </div>
-            { 
-              lengComplete > 0 
-              && 
-              <a key="clear" 
-              href="/" 
-              onClick={ this.onClearCompleteClicked } >Clear Complete</a> 
-            }
-        </div>
+
+        <Footer 
+          leng={leng}
+          currentItem={currentItem}
+          onAllItemClicked={this.onAllItemClicked}
+          onActiveItemClicked={this.onActiveItemClicked}
+          onCompleteItemClicked={this.onCompleteItemClicked}
+          lengComplete={lengComplete}
+          onClearCompleteClicked={this.onClearCompleteClicked}
+        />
       </div>
     );
   }
