@@ -1,16 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import moduleName from 'module';
 
 import './Footer.css';
 
-const Footer = (props) => {
-  const { 
-    leng, currentItem,
-    onAllItemClicked, onActiveItemClicked,
-    onCompleteItemClicked, lengComplete,
-    onClearCompleteClicked 
-  } = props;
-
+const Footer = ({ leng, currentItem, onOptionClicked, lengComplete, onClearCompleteClicked }) => {
   return (
     <div className="Footer">
       <p>
@@ -21,17 +15,17 @@ const Footer = (props) => {
           'border-link': currentItem === "all"
         })}
         href="/" 
-        onClick={ onAllItemClicked } >All</a>
+        onClick={ onOptionClicked('all') } >All</a>
         <a key="active" className={classNames({
           'border-link': currentItem === "active"
         })}
         href="/" 
-        onClick={ onActiveItemClicked } >Active</a>
+        onClick={ onOptionClicked('active') } >Active</a>
         <a key="complete" className={classNames({
           'border-link': currentItem === "complete"
         })}
         href="/" 
-        onClick={ onCompleteItemClicked } >Complete</a>
+        onClick={ onOptionClicked('complete') } >Complete</a>
       </div>
       { 
         lengComplete > 0 

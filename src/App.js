@@ -1,194 +1,131 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import './App.css';
 import TodoItem from './components/TodoItem';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-class App extends Component{
-  constructor() {
-    super();
-    this.state = JSON.parse(localStorage.getItem('list')) || 
-                {
-                  newItem: "",
-                  currentItem: 'all',
-                  todoItems: []
-                }
-
-    // localStorage.setItem('TodoItem', JSON.stringify(this.state.todoItems));
-    
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onAllSelected = this.onAllSelected.bind(this);
-    this.onAllItemClicked = this.onAllItemClicked.bind(this);
-    this.onActiveItemClicked = this.onActiveItemClicked.bind(this);
-    this.onCompleteItemClicked = this.onCompleteItemClicked.bind(this);
-    this.onClearCompleteClicked = this.onClearCompleteClicked.bind(this);
-    this.onDeleteInputClicked = this.onDeleteInputClicked.bind(this);
-    // create Ref()
-    this.inputElement = React.createRef();
-  }
-  
-  // component did mount
-  componentDidMount() {
-    // automactic focus input after go to website
-    this.inputElement.current.focus();
-  }
+const App = () => {
+  const [ todoItems, setTodoItems ] = useState(
+      JSON.parse(localStorage.getItem('list')) || []
+    );
+  const [ newItem, setNewItem ] = useState('');
+  const [ currentItem, setCurrentItem ] = useState('all');
+  const inputElement = useRef();
+  // auto focus input
+  useEffect(() => {
+    inputElement.current.focus();
+  })
 
   // event click item use to check item
-  onItemClicked(item) {
-    return (event) => {
-      const isComplete = item.isComplete;
-      const { todoItems } = this.state;
+  const onItemClicked = (item) => {
+    return event => {
       const index = todoItems.indexOf(item);
-      this.setState({
-        todoItems: [
+      setTodoItems(
+        todoItems => [
           ...todoItems.slice(0, index),
-          {
-            ...item,
-            isComplete: !isComplete
-          },
+          { ...item, isComplete: !item.isComplete},
           ...todoItems.slice(index + 1)
         ]
-      });
+      )
     }
   }
-
   // event onKeyUp use to fetch value user enter
-  onKeyUp(event) {
-    if(event.keyCode === 13) {    // keyCode = 13 : Enter
+  const onKeyUp = event => {
+    if(event.keyCode === 13) {
       let text = event.target.value;
-      if(!text) {
-        return;
-      }
-      // delete backspace in start and end
+      if(!text) return;
       text = text.trim();
-      if(!text) {
-        return;
-      }
-
-      this.setState({
-        newItem: '',
-        todoItems: [
-          { title: text, isComplete: false },
-          ...this.state.todoItems
-        ]
-      });
+      if(!text) return;
+      setTodoItems(todoItems => ([
+        { title: text, isComplete: false},
+        ...todoItems
+      ]));
+      setNewItem('');
     }
   }
-
-  onChange(event) {
-    this.setState({
-      newItem: event.target.value
-    });
+  // handler change input
+  const onChange = event => {
+    setNewItem(event.target.value);
   }
-
   // click delete input
-  onDeleteInputClicked(event) {
-    this.setState({
-      newItem: ''
-    })
+  const onDeleteInputClicked = () => {
+    setNewItem('');
   }
-
   // click item select all
-  onAllSelected() {
-    this.setState({
-      todoItems: this.state.todoItems.map((item) => {
+  const onAllSelected = () => {
+    setTodoItems(todoItems => {
+      todoItems.map(item => {
         item.isComplete = true;
         return item;
       })
     })
   }
-
-  // click all
-  onAllItemClicked() {
-    this.setState({
-      currentItem: 'all'
-    });
-  }
-
-  // click active
-  onActiveItemClicked() {
-    this.setState({
-      currentItem: 'active'
-    })
-  }
-
-  // click complete
-  onCompleteItemClicked() {
-    this.setState({
-      currentItem: 'complete'
-    })
-  }
-
-  // clearC complete click
-  onClearCompleteClicked() {
-    this.setState({
-      todoItems: this.state.todoItems.filter((item) => {
-        return item.isComplete === false;
-      })
-    });
-  }
-  
-  render() {
-    let { todoItems, newItem, currentItem } = this.state;
-    // update data to localStorage after render
-    // localStorage.removeItem('todoItem');
-    localStorage.setItem('list', JSON.stringify(this.state));
-
-    // filter todoItems if click active
-    if(currentItem === 'active') {
-      todoItems = todoItems.filter((item) => {
-        return item.isComplete === false;
-      });
+  // handler click option
+  const onOptionClicked = option => {
+    return e => {
+      e.preventDefault();
+      setCurrentItem(option);
     }
-
-    // filter todoItems if click complete 
-    if(currentItem === 'complete') {
-      todoItems = todoItems.filter((item) => {
-        return item.isComplete === true;
-      });
-    }
-    // count Items
-    const leng = todoItems.length;
-    const lengComplete = todoItems.filter((item) => {
-      return item.isComplete === true;
-    }).length;
-
-    return (  // react element
-      <div className="App">
-        <div className="title-app">todo list</div>
-        
-        <Header 
-          onAllSelected={this.onAllSelected}
-          onDeleteInputClicked={this.onDeleteInputClicked}
-          onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
-          newItem={newItem}
-          inputElement={this.inputElement}
-        />
-
-        {todoItems.length > 0 && todoItems.map((item, index) => (
-          <TodoItem 
-          key={index} 
-          item={item} 
-          onClick={ this.onItemClicked(item) } />
-          ))}
-        {todoItems.length === 0 && 'nothing here'}
-
-        <Footer 
-          leng={leng}
-          currentItem={currentItem}
-          onAllItemClicked={this.onAllItemClicked}
-          onActiveItemClicked={this.onActiveItemClicked}
-          onCompleteItemClicked={this.onCompleteItemClicked}
-          lengComplete={lengComplete}
-          onClearCompleteClicked={this.onClearCompleteClicked}
-        />
-      </div>
+  }
+  // clear Ccomplete click
+  const onClearCompleteClicked = () => {
+    debugger;
+    setTodoItems( todoItems =>
+      todoItems.filter(item => item.isComplete === false)
     );
   }
- 
+  // update data to localStorage after render
+  // localStorage.removeItem('todoItem');
+  localStorage.setItem('list', JSON.stringify(todoItems));
+
+  let Items = todoItems;
+  // filter todoItems if click active
+  if(currentItem === 'active') {
+    Items = Items.filter((item) => {
+      return item.isComplete === false;
+    });
+  }
+
+  // filter todoItems if click complete 
+  if(currentItem === 'complete') {
+    Items = Items.filter((item) => {
+      return item.isComplete === true;
+    });
+  }
+  // count Items
+  const leng = Items.length;
+  const lengComplete = Items.filter((item) => {
+    return item.isComplete === true;
+  }).length;
+
+  return (  // react element
+    <div className="App">
+      <div className="title-app">todo list</div>
+      <Header 
+        onAllSelected={onAllSelected}
+        onDeleteInputClicked={onDeleteInputClicked}
+        onChange={onChange}
+        onKeyUp={onKeyUp}
+        newItem={newItem}
+        inputElement={inputElement}
+      />
+      {Items.length > 0 && Items.map((item, index) => (
+        <TodoItem 
+        key={index} 
+        item={item} 
+        onClick={ onItemClicked(item) } />
+        ))}
+      {Items.length === 0 && 'nothing here'}
+      <Footer 
+        leng={leng}
+        currentItem={currentItem}
+        onOptionClicked={onOptionClicked}
+        lengComplete={lengComplete}
+        onClearCompleteClicked={onClearCompleteClicked}
+      />
+    </div>
+  );
 }
 
 export default App;
