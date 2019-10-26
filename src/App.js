@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import './App.css';
 import TodoItem from './components/TodoItem';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { ItemContext } from './contexts/ItemContext';
 
 const App = () => {
-  const [ todoItems, setTodoItems ] = useState(
-      JSON.parse(localStorage.getItem('list')) || []
-    );
+  const { todoItems, setTodoItems } = useContext(ItemContext);
   const [ newItem, setNewItem ] = useState('');
   const [ currentItem, setCurrentItem ] = useState('all');
   const inputElement = useRef();
@@ -16,9 +15,8 @@ const App = () => {
   useEffect(() => {
     inputElement.current.focus();
   })
-
   // event click item use to check item
-  const onItemClicked = (item) => {
+  const onItemClicked = item => {
     return event => {
       const index = todoItems.indexOf(item);
       setTodoItems(
@@ -70,15 +68,10 @@ const App = () => {
   }
   // clear Ccomplete click
   const onClearCompleteClicked = () => {
-    debugger;
     setTodoItems( todoItems =>
       todoItems.filter(item => item.isComplete === false)
     );
   }
-  // update data to localStorage after render
-  // localStorage.removeItem('todoItem');
-  localStorage.setItem('list', JSON.stringify(todoItems));
-
   let Items = todoItems;
   // filter todoItems if click active
   if(currentItem === 'active') {
@@ -86,7 +79,6 @@ const App = () => {
       return item.isComplete === false;
     });
   }
-
   // filter todoItems if click complete 
   if(currentItem === 'complete') {
     Items = Items.filter((item) => {
