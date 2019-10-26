@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import moduleName from 'module';
+import PropTypes from 'prop-types';
 
 import './Footer.css';
 
@@ -36,6 +36,14 @@ const Footer = ({ leng, currentItem, onOptionClicked, lengComplete, onClearCompl
       }
     </div>
   )
+}
+
+Footer.propTypes = {
+  leng: PropTypes.number.isRequired,
+  currentItem: PropTypes.string.isRequired,
+  onOptionClicked: PropTypes.func.isRequired,
+  lengComplete: PropTypes.number.isRequired,
+  onClearCompleteClicked: PropTypes.func.isRequired
 }
 
 export default Footer;

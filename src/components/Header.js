@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import checkAll from '../img/checkAll.svg';
 import deleteInput from '../img/delete.svg';
@@ -34,6 +35,15 @@ const Header = (props) => {
       /> }
     </div>
   )
+}
+
+Header.propTypes = {
+  onAllSelected: PropTypes.func.isRequired,
+  onDeleteInputClicked: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func.isRequired,
+  newItem: PropTypes.string.isRequired,
+  inputElement: PropTypes.func.isRequired
 }
 
 export default Header;
