@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import { ItemContext } from './contexts/ItemContext';
 
 const App = () => {
-  const { todoItems, setTodoItems } = useContext(ItemContext);
+  const { todoItems, dispatch } = useContext(ItemContext);
   const [ newItem, setNewItem ] = useState('');
   const [ currentItem, setCurrentItem ] = useState('all');
   const inputElement = useRef();
@@ -18,14 +18,7 @@ const App = () => {
   // event click item use to check item
   const onItemClicked = item => {
     return event => {
-      const index = todoItems.indexOf(item);
-      setTodoItems(
-        todoItems => [
-          ...todoItems.slice(0, index),
-          { ...item, isComplete: !item.isComplete},
-          ...todoItems.slice(index + 1)
-        ]
-      )
+      dispatch({type: 'CLICK_ITEM', item})
     }
   }
   // event onKeyUp use to fetch value user enter
@@ -35,10 +28,7 @@ const App = () => {
       if(!text) return;
       text = text.trim();
       if(!text) return;
-      setTodoItems(todoItems => ([
-        { title: text, isComplete: false},
-        ...todoItems
-      ]));
+      dispatch({type: 'ADD_ITEM', title: text});
       setNewItem('');
     }
   }
@@ -52,12 +42,7 @@ const App = () => {
   }
   // click item select all
   const onAllSelected = () => {
-    setTodoItems(todoItems => {
-      todoItems.map(item => {
-        item.isComplete = true;
-        return item;
-      })
-    })
+    dispatch({type: 'SELECT_ALL_ITEM'});
   }
   // handler click option
   const onOptionClicked = option => {
@@ -68,9 +53,7 @@ const App = () => {
   }
   // clear Ccomplete click
   const onClearCompleteClicked = () => {
-    setTodoItems( todoItems =>
-      todoItems.filter(item => item.isComplete === false)
-    );
+    dispatch({type: 'DELETE_ITEM'});
   }
   let Items = todoItems;
   // filter todoItems if click active
