@@ -8,16 +8,16 @@ import checkComplete from '../img/checkComplete.svg';
 
 const TodoItem = ({ item, onClick }) => {
   let url = checkImg;
-  if(item.isComplete) {
+  if (item.isComplete) {
     url = checkComplete;
   }
-  
+
   return (
     <div className={classNames('TodoItem', {
-      'TodoItem-complete': item.isComplete 
+      'TodoItem-complete': item.isComplete
     })}>
-        <img src={url} onClick={onClick} width="32" height="32" alt="click-item" />
-        <p>{props.item.title}</p>
+      <img src={url} onClick={onClick} width="32" height="32" alt="click-item" />
+      <p>{item.title}</p>
     </div>
   )
 }
@@ -25,7 +25,7 @@ const TodoItem = ({ item, onClick }) => {
 TodoItem.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    isComplete: PropTypes.bool.isRequired 
+    isComplete: PropTypes.bool.isRequired
   }),
   onClick: PropTypes.func.isRequired
 };
